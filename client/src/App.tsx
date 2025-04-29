@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import VehicleManagement from './pages/VehicleManagement';
+import CustomerManagement from './pages/CustomerManagement';
+import AdvancePayment from './pages/AdvancePayment';
+import SalesRecords from './pages/SalesRecords';
 
-function App() {
+const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="min-h-screen bg-gray-100">
+        <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/vehicles" element={<VehicleManagement />} />
+          <Route path="/customers" element={<CustomerManagement />} />
+          <Route path="/payments" element={<AdvancePayment />} />
+          <Route path="/sales" element={<SalesRecords />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
