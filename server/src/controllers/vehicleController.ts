@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import VehicleModel from '../models/Vehicle';
 import { Vehicle } from '../types/vehicle';
 
-export const getVehicles = async (req: Request, res: Response) => {
+export const getVehicles = async (req: Request, res: Response):Promise<void>  => {
   try {
     const { price, year, type } = req.query;
     const query: any = {};
@@ -16,7 +16,7 @@ export const getVehicles = async (req: Request, res: Response) => {
   }
 };
 
-export const createVehicle = async (req: Request, res: Response) => {
+export const createVehicle = async (req: Request, res: Response):Promise<void>  => {
   try {
     const vehicle = new VehicleModel(req.body);
     await vehicle.save();
@@ -26,20 +26,24 @@ export const createVehicle = async (req: Request, res: Response) => {
   }
 };
 
-export const updateVehicle = async (req: Request, res: Response) => {
+export const updateVehicle = async (req: Request, res: Response):Promise<void>  => {
   try {
     const vehicle = await VehicleModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!vehicle) return res.status(404).json({ message: 'Vehicle not found' });
+    if (!vehicle) { res.status(404).json({ message: 'Vehicle not found' });
+      return; 
+    }
     res.json(vehicle);
   } catch (error) {
     res.status(400).json({ message: 'Error updating vehicle' });
   }
 };
 
-export const deleteVehicle = async (req: Request, res: Response) => {
+export const deleteVehicle = async (req: Request, res: Response):Promise<void> => {
   try {
     const vehicle = await VehicleModel.findByIdAndDelete(req.params.id);
-    if (!vehicle) return res.status(404).json({ message: 'Vehicle not found' });
+    if (!vehicle) { res.status(404).json({ message: 'Vehicle not found' });
+      return; 
+    }
     res.json({ message: 'Vehicle deleted' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting vehicle' });
