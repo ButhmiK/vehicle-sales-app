@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import UserModel from '../models/User';
 import { User } from '../types/user';
 
-export const register = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response):Promise<void> => {
   try {
     const { email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -16,14 +16,18 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response):Promise<void> => {
   try {
     const { email, password } = req.body;
     const user: User | null = await UserModel.findOne({ email });
-    if (!user) return res.status(400).json({ message: 'Invalid credentials' });
+    if (!user){  res.status(400).json({ message: 'Invalid credentials' });
+        return; }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+    if (!isMatch){ 
+       res.status(400).json({ message: 'Invalid credentials' });
+       return;
+    }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
     res.json({ token });

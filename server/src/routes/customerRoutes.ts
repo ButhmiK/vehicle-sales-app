@@ -9,4 +9,6 @@ router.post('/', authMiddleware, createCustomer);
 router.put('/:id', authMiddleware, updateCustomer);
 router.delete('/:id', authMiddleware, deleteCustomer);
 
+
+
 export default router;

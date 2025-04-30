@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import CustomerModel from '../models/Customer';
 import { Customer } from '../types/customer';
 
-export const getCustomers = async (req: Request, res: Response) => {
+export const getCustomers = async (req: Request, res: Response): Promise<void>  => {
   try {
     const { search } = req.query;
     const query = search ? { name: { $regex: search, $options: 'i' } } : {};
@@ -13,7 +13,7 @@ export const getCustomers = async (req: Request, res: Response) => {
   }
 };
 
-export const createCustomer = async (req: Request, res: Response) => {
+export const createCustomer = async (req: Request, res: Response): Promise<void> => {
   try {
     const customer = new CustomerModel(req.body);
     await customer.save();
@@ -23,20 +23,24 @@ export const createCustomer = async (req: Request, res: Response) => {
   }
 };
 
-export const updateCustomer = async (req: Request, res: Response) => {
+export const updateCustomer = async (req: Request, res: Response): Promise<void> => {
   try {
     const customer = await CustomerModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!customer) return res.status(404).json({ message: 'Customer not found' });
+    if (!customer){  res.status(404).json({ message: 'Customer not found' });
+        return; 
+      }
     res.json(customer);
   } catch (error) {
     res.status(400).json({ message: 'Error updating customer' });
   }
 };
 
-export const deleteCustomer = async (req: Request, res: Response) => {
+export const deleteCustomer = async (req: Request, res: Response): Promise<void> => {
   try {
     const customer = await CustomerModel.findByIdAndDelete(req.params.id);
-    if (!customer) return res.status(404).json({ message: 'Customer not found' });
+    if (!customer){ res.status(404).json({ message: 'Customer not found' });
+        return; 
+      }
     res.json({ message: 'Customer deleted' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting customer' });
