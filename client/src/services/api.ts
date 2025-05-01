@@ -1,7 +1,8 @@
 import axios from 'axios';
 
+// Use environment variable for baseURL, fallback to localhost for development
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
 });
 
 api.interceptors.request.use((config) => {
@@ -13,16 +14,15 @@ api.interceptors.request.use((config) => {
 });
 
 export const login = async (credentials: { email: string; password: string }) => {
-    const response = await api.post('/auth/login', credentials);
-    return response.data;
-  };
+  const response = await api.post('/auth/login', credentials);
+  return response.data;
+};
 
-  export const register = async (credentials: { email: string; password: string }) => {
-    const response = await api.post('/auth/register', credentials);
-    return response.data;
-  };
-  
-  
+export const register = async (credentials: { email: string; password: string }) => {
+  const response = await api.post('/auth/register', credentials);
+  return response.data;
+};
+
 export const fetchVehicles = async (filters: { price?: string; year?: string; type?: string }) => {
   const response = await api.get('/vehicles', { params: filters });
   return response.data;
@@ -81,21 +81,20 @@ export const deletePayment = async (id: string) => {
 };
 
 export const fetchSales = async (filters: { startDate?: string; endDate?: string }) => {
-    const response = await api.get('/sales', { params: filters });
-    return response.data;
- };
-  
-  
+  const response = await api.get('/sales', { params: filters });
+  return response.data;
+};
+
 export const deleteSale = async (id: string) => {
-    await api.delete(`/sales/${id}`);
-  };
-  export const createSale = async (sale: any) => {
-    const response = await api.post('/sales', sale);
-    return response.data;
-  };
-  
-  export const updateSale = async (id: string, sale: any) => {
-    const response = await api.put(`/sales/${id}`, sale);
-    return response.data;
-  };
-  
+  await api.delete(`/sales/${id}`);
+};
+
+export const createSale = async (sale: any) => {
+  const response = await api.post('/sales', sale);
+  return response.data;
+};
+
+export const updateSale = async (id: string, sale: any) => {
+  const response = await api.put(`/sales/${id}`, sale);
+  return response.data;
+};
