@@ -59,7 +59,7 @@ const VehicleManagement: React.FC = () => {
 
   return (
     <div className="bg-gradient-to-br p-8">
-      <div className="bg-white  mx-auto rounded-2xl shadow-xl p-12">
+      <div className="bg-white mx-auto rounded-2xl shadow-xl p-12">
         <h1 className="text-2xl font-bold text-green-700 mb-6 text-center">Vehicle Management</h1>
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <form onSubmit={handleSubmit} className="flex flex-wrap gap-4 mb-8">
@@ -68,7 +68,7 @@ const VehicleManagement: React.FC = () => {
             placeholder="Make"
             value={form.make}
             onChange={(e) => setForm({ ...form, make: e.target.value })}
-            className=" border border-orange-300 p-3 rounded-lg focus:ring-green-500"
+            className="border border-orange-300 p-3 rounded-lg focus:ring-green-500"
             required
           />
           <input
@@ -127,6 +127,15 @@ const VehicleManagement: React.FC = () => {
             {editId ? 'Update' : 'Add'} Vehicle
           </button>
         </form>
+
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={() => window.print()}
+            className="bg-gray-500 hover:bg-gray-600 text-white font-semibold px-6 py-2 rounded-lg"
+          >
+            Print
+          </button>
+        </div>
 
         <div className="overflow-x-auto">
           <table className="w-full border border-gray-300">
