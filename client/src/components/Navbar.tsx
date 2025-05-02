@@ -16,7 +16,7 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, setIsAuthenticated }) 
   };
 
   return (
-    <nav className="bg-blue-600 p-4">
+    <nav className="bg-gradient-to-r from-green-600 via-green-400 to-orange-400 p-4">
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/" className="text-white text-xl font-bold">Super Mobile Car Sales</Link>
         <div>
@@ -27,11 +27,21 @@ const Navbar: React.FC<NavbarProps> = ({ isAuthenticated, setIsAuthenticated }) 
               <Link to="/customers" className="text-white mr-4">Customers</Link>
               <Link to="/payments" className="text-white mr-4">Payments</Link>
               <Link to="/sales" className="text-white mr-4">Sales</Link>
-              <button onClick={handleLogout} className="text-white">Logout</button>
+              <button
+                onClick={handleLogout}
+                className="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded"
+              >
+                Logout
+              </button>
             </>
           ) : (
             <>
-              <Link to="/login" className="text-white mr-4">Login</Link>
+              <Link
+                to="/login"
+                className="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded mr-4"
+              >
+                Login
+              </Link>
               <Link to="/register" className="text-white">Register</Link>
             </>
           )}

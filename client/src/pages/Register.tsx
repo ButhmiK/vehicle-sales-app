@@ -19,28 +19,43 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-md">
-      <h1 className="text-2xl font-bold mb-4">Register</h1>
-      {error && <p className="text-red-500">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="border p-2 mb-2 w-full"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="border p-2 mb-2 w-full"
-          required
-        />
-        <button type="submit" className="bg-blue-500 text-white p-2 w-full">Register</button>
-      </form>
+    <div className="flex flex-col items-center justify-center p-8 bg-gradient-to-r from-green-200 via-green-100 to-orange-100">
+      <div className="bg-white shadow-xl rounded-2xl p-16 w-full max-w-md border border-green-200">
+        <h1 className="text-3xl font-bold text-green-700 mb-6 text-center">Register</h1>
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="border border-orange-300 p-3 mb-4 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="border border-orange-300 p-3 mb-4 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+            required
+          />
+          <button
+            type="submit"
+            className="bg-gradient-to-r from-green-500 to-orange-400 hover:from-green-600 hover:to-orange-500 text-white font-semibold p-3 w-full rounded-lg transition duration-300"
+          >
+            Register
+          </button>
+        </form>
+      </div>
+      <div className="mt-6 text-center">
+        <p className="text-gray-600">
+          Already have an account?{' '}
+          <a href="/login" className="text-green-500 hover:underline">
+            Login
+          </a>
+        </p>
+      </div>
     </div>
   );
 };

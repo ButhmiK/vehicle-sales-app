@@ -16,7 +16,17 @@ const App: React.FC = () => {
     <Router>
       <div className="min-h-screen bg-gray-100">
         <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
-        <Routes>
+        <div className="flex items-center justify-center "> 
+  <div className=" max-w p-6 bg-white rounded-2xl shadow-lg text-center">
+    <h1 className="text-3xl font-extrabold text-blue-700  animate-fade-in">
+      Super Mobile Car Sales
+    </h1><br/>
+    <p className="mb-3 text-gray-70  animate-slide-in-up">
+      Welcome to the <span className="font-semibold text-blue-600">Super Mobile Car Sales</span> application. Here you can manage vehicles, customers, payments, and sales records.
+    </p>
+  </div>
+</div>
+<Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
           <Route path="/register" element={<Register />} />

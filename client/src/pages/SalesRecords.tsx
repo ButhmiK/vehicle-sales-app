@@ -49,8 +49,8 @@ const SalesRecords: React.FC = () => {
 
   const handleEdit = (sale: Sale) => {
     setForm({
-      vehicleId: (sale.vehicleId as any)._id,
-      customerId: (sale.customerId as any)._id,
+      vehicleId: (sale.vehicleId as any)?._id || '',
+      customerId: (sale.customerId as any)?._id || '',
       saleDate: sale.saleDate.split('T')[0],
       price: sale.price,
       status: sale.status
@@ -142,7 +142,7 @@ const SalesRecords: React.FC = () => {
           <option value="Pending">Pending</option>
           <option value="Completed">Completed</option>
         </select>
-        <button type="submit" className="bg-blue-500 text-white p-2">
+        <button type="submit" className="bg-gradient-to-r from-orange-500 to-green-500 text-white font-semibold px-6 py-2 rounded shadow hover:brightness-110 transition w-full md:w-auto">
           {editId ? 'Update' : 'Add'} Sale
         </button>
       </form>
@@ -161,9 +161,11 @@ const SalesRecords: React.FC = () => {
           {sales.map((sale) => (
             <tr key={sale._id}>
               <td className="border p-2">
-                {(sale.vehicleId as any).make} {(sale.vehicleId as any).model}
+                {(sale.vehicleId as any) ? `${(sale.vehicleId as any).make} ${(sale.vehicleId as any).model}` : 'Vehicle Not Found'}
               </td>
-              <td className="border p-2">{(sale.customerId as any).name}</td>
+              <td className="border p-2">
+                {(sale.customerId as any) ? (sale.customerId as any).name : 'Customer Not Found'}
+              </td>
               <td className="border p-2">{new Date(sale.saleDate).toLocaleDateString()}</td>
               <td className="border p-2">{sale.price}</td>
               <td className="border p-2">{sale.status}</td>

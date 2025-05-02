@@ -40,7 +40,12 @@ const AdvancePayment: React.FC = () => {
   };
 
   const handleEdit = (payment: Payment) => {
-    setForm({ vehicleId: payment.vehicleId as string, amount: payment.amount, date: payment.date.split('T')[0], method: payment.method });
+    setForm({
+      vehicleId: payment.vehicleId ? (payment.vehicleId as any)._id : '',
+      amount: payment.amount,
+      date: payment.date.split('T')[0],
+      method: payment.method
+    });
     setEditId(payment._id);
   };
 
@@ -65,7 +70,6 @@ const AdvancePayment: React.FC = () => {
           required
         >
           <option value="" disabled>Select Vehicle</option>
-          <option value="">Select Vehicle</option>
           {vehicles.map((vehicle) => (
             <option key={vehicle._id} value={vehicle._id}>{vehicle.make} {vehicle.model}</option>
           ))}
@@ -96,7 +100,7 @@ const AdvancePayment: React.FC = () => {
           <option value="Card">Card</option>
           <option value="Cash">Cash</option>
         </select>
-        <button type="submit" className="bg-blue-500 text-white p-2">
+        <button type="submit"  className="bg-gradient-to-r from-orange-500 to-green-500 text-white font-semibold px-6 py-2 rounded shadow hover:brightness-110 transition w-full md:w-auto">
           {editId ? 'Update' : 'Add'} Payment
         </button>
       </form>
@@ -114,7 +118,7 @@ const AdvancePayment: React.FC = () => {
           {payments.map((payment) => (
             <tr key={payment._id}>
               <td className="border p-2">
-                {(payment.vehicleId as any).make} {(payment.vehicleId as any).model}
+                {payment.vehicleId ? `${(payment.vehicleId as any).make} ${(payment.vehicleId as any).model}` : 'Vehicle Not Found'}
               </td>
               <td className="border p-2">{payment.amount}</td>
               <td className="border p-2">{new Date(payment.date).toLocaleDateString()}</td>
@@ -136,3 +140,5 @@ const AdvancePayment: React.FC = () => {
 };
 
 export default AdvancePayment;
+
+

@@ -52,9 +52,9 @@ const CustomerManagement: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Customer Management</h1>
-      {error && <p className="text-red-500">{error}</p>}
+    <div className="container mx-auto p-4 ">
+      <h1 className="text-2xl font-bold mb-8">Customer Management</h1>
+      {error && <p className="text-green-500">{error}</p>}
       <input
         type="text"
         placeholder="Search by name"
@@ -105,7 +105,7 @@ const CustomerManagement: React.FC = () => {
           <option value="Individual">Individual</option>
           <option value="Business">Business</option>
         </select>
-        <button type="submit" className="bg-blue-500 text-white p-2">
+        <button type="submit"  className="bg-gradient-to-r from-orange-500 to-green-500 text-white font-semibold px-6 py-2 rounded shadow hover:brightness-110 transition w-full md:w-auto">
           {editId ? 'Update' : 'Add'} Customer
         </button>
       </form>
