@@ -6,16 +6,25 @@ const CustomerManagement: React.FC = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [form, setForm] = useState({ name: '', email: '', phone: '', address: '', type: '' });
   const [editId, setEditId] = useState<string | null>(null);
-  const [error, setError] = useState('');
-  const [search, setSearch] = useState('');
+  const [error, setError] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
 
   useEffect(() => {
     const loadCustomers = async () => {
       try {
         const data = await fetchCustomers({ name: search });
         setCustomers(data);
-      } catch (err) {
-        setError('Failed to load customers');
+      } catch (err: any) {
+        if (err.response) {
+          // Server-side error
+          setError(`Failed to load customers: ${err.response.data.message || err.response.statusText}`);
+        } else if (err.request) {
+          // Network error
+          setError('Failed to load customers: Network error');
+        } else {
+          // Other errors
+          setError(`Error: ${err.message}`);
+        }
       }
     };
     loadCustomers();
@@ -32,8 +41,17 @@ const CustomerManagement: React.FC = () => {
       setForm({ name: '', email: '', phone: '', address: '', type: '' });
       setEditId(null);
       setCustomers(await fetchCustomers({ name: search }));
-    } catch (err) {
-      setError('Failed to save customer');
+    } catch (err: any) {
+      if (err.response) {
+        // Server-side error
+        setError(`Failed to save customer: ${err.response.data.message || err.response.statusText}`);
+      } else if (err.request) {
+        // Network error
+        setError('Failed to save customer: Network error');
+      } else {
+        // Other errors
+        setError(`Error: ${err.message}`);
+      }
     }
   };
 
@@ -46,15 +64,24 @@ const CustomerManagement: React.FC = () => {
     try {
       await deleteCustomer(id);
       setCustomers(await fetchCustomers({ name: search }));
-    } catch (err) {
-      setError('Failed to delete customer');
+    } catch (err: any) {
+      if (err.response) {
+        // Server-side error
+        setError(`Failed to delete customer: ${err.response.data.message || err.response.statusText}`);
+      } else if (err.request) {
+        // Network error
+        setError('Failed to delete customer: Network error');
+      } else {
+        // Other errors
+        setError(`Error: ${err.message}`);
+      }
     }
   };
 
   return (
-    <div className="container mx-auto p-4 ">
+    <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-8">Customer Management</h1>
-      {error && <p className="text-green-500">{error}</p>}
+      {error && <p className="text-red-500">{error}</p>}
       <input
         type="text"
         placeholder="Search by name"
@@ -105,7 +132,7 @@ const CustomerManagement: React.FC = () => {
           <option value="Individual">Individual</option>
           <option value="Business">Business</option>
         </select>
-        <button type="submit"  className="bg-gradient-to-r from-orange-500 to-green-500 text-white font-semibold px-6 py-2 rounded shadow hover:brightness-110 transition w-full md:w-auto">
+        <button type="submit" className="bg-gradient-to-r from-orange-500 to-green-500 text-white font-semibold px-6 py-2 rounded shadow hover:brightness-110 transition w-full md:w-auto">
           {editId ? 'Update' : 'Add'} Customer
         </button>
       </form>

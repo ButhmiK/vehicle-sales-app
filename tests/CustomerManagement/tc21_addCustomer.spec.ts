@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('TC01: Should add a new customer successfully', async ({ page }) => {
+test('Add new customer successfully', async ({ page }) => {
   
   await page.goto('http://localhost:3000/login');
 
@@ -12,7 +12,6 @@ test('TC01: Should add a new customer successfully', async ({ page }) => {
   await page.waitForNavigation();
   await page.goto('http://localhost:3000/customers');
 
-  // Fill out the form to add a new customer
   await page.fill('input[placeholder="Name"]', 'John Doe');
   await page.fill('input[placeholder="Email"]', 'john@example.com');
   await page.fill('input[placeholder="Phone"]', '0712345678');
