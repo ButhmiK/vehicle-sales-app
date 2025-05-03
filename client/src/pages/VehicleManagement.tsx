@@ -22,6 +22,16 @@ const VehicleManagement: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Boundary validation
+    if (form.price < 50000 || form.price > 1000000) {
+      setError('Price must be between 50,000 and 1,000,000');
+      return;
+    }
+    if (form.year < 1990 || form.year > 2026) {
+      setError('Year must be between 1990 and 2026');
+      return;
+    }
+
     try {
       if (editId) {
         await updateVehicle(editId, form);
@@ -31,6 +41,7 @@ const VehicleManagement: React.FC = () => {
       setForm({ make: '', model: '', year: 0, price: 0, type: '', image: '' });
       setEditId(null);
       setVehicles(await fetchVehicles({}));
+      setError(''); // Clear error on success
     } catch (err) {
       setError('Failed to save vehicle');
     }

@@ -18,6 +18,7 @@
   "homepage": "https://github.com/ButhmiK/vehicle-sales-app#readme",
   "devDependencies": {
     "@playwright/test": "^1.52.0",
-    "@types/node": "^22.15.3"
+    "@types/node": "^22.15.3",
+    "concurrently": "^9.1.2"
   }
 }

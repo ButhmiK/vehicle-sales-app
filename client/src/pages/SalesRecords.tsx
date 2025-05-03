@@ -11,13 +11,13 @@ const SalesRecords: React.FC = () => {
   const [form, setForm] = useState({ vehicleId: '', customerId: '', saleDate: '', price: 0, status: '' });
   const [editId, setEditId] = useState<string | null>(null);
   const [error, setError] = useState('');
-  const [filters, setFilters] = useState({ startDate: '', endDate: '' });
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
     const loadData = async () => {
       try {
         const [saleData, vehicleData, customerData] = await Promise.all([
-          fetchSales(filters),
+          fetchSales({}),
           fetchVehicles({}),
           fetchCustomers({})
         ]);
@@ -29,7 +29,7 @@ const SalesRecords: React.FC = () => {
       }
     };
     loadData();
-  }, [filters]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +41,7 @@ const SalesRecords: React.FC = () => {
       }
       setForm({ vehicleId: '', customerId: '', saleDate: '', price: 0, status: '' });
       setEditId(null);
-      setSales(await fetchSales(filters));
+      setSales(await fetchSales({}));
     } catch (err) {
       setError('Failed to save sale');
     }
@@ -61,38 +61,60 @@ const SalesRecords: React.FC = () => {
   const handleDelete = async (id: string) => {
     try {
       await deleteSale(id);
-      setSales(await fetchSales(filters));
+      setSales(await fetchSales({}));
     } catch (err) {
       setError('Failed to delete sale');
     }
   };
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      const filteredSales = sales.filter((sale) =>
+        (sale.customerId as any)?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        ((sale.vehicleId as any)?.make + ' ' + (sale.vehicleId as any)?.model).toLowerCase().includes(searchTerm.toLowerCase()) ||
+        sale.status.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSales(filteredSales);
+    } else {
+      // Reload all sales if search term is empty
+      const loadData = async () => {
+        try {
+          const saleData = await fetchSales({});
+          setSales(saleData);
+        } catch (err) {
+          setError('Failed to load data');
+        }
+      };
+      loadData();
+    }
   };
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Sales Records</h1>
       {error && <p className="text-red-500">{error}</p>}
-      <div className="mb-4">
+
+      {/* Search Bar */}
+      <div className="mb-4 flex items-center">
         <input
-          type="date"
-          name="startDate"
-          placeholder="Start Date"
-          value={filters.startDate}
-          onChange={handleFilterChange}
+          type="text"
+          placeholder="Search by customer, vehicle, or status"
+          value={searchTerm}
+          onChange={handleSearchChange}
           className="border p-2 mr-2"
         />
-        <input
-          type="date"
-          name="endDate"
-          placeholder="End Date"
-          value={filters.endDate}
-          onChange={handleFilterChange}
-          className="border p-2 mr-2"
-        />
+        <button
+          onClick={handleSearch}
+          className="bg-blue-500 text-white p-2 rounded"
+        >
+          Search
+        </button>
       </div>
+
       <form onSubmit={handleSubmit} className="mb-4">
         <select
           value={form.vehicleId}
@@ -146,6 +168,7 @@ const SalesRecords: React.FC = () => {
           {editId ? 'Update' : 'Add'} Sale
         </button>
       </form>
+
       <table className="w-full border">
         <thead>
           <tr>
