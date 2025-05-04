@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-test('should add a new vehicle successfully', async ({ page }) => {
+
+
+test('should edit an existing vehicle', async ({ page }) => {
   await page.goto('http://localhost:3000');
   await page.waitForLoadState('domcontentloaded');
 
@@ -10,10 +12,11 @@ test('should add a new vehicle successfully', async ({ page }) => {
   await page.fill('input[placeholder="Password"]', '123'); 
   await page.click('button:has-text("Login")'); 
 
-test('should edit an existing vehicle', async ({ page }) => {
+  await page.waitForNavigation();
+  await page.goto('http://localhost:3000/vehicles'); 
+
     await page.click('button:has-text("Edit")');
     await page.fill('input[placeholder="Model"]', 'UpdatedModel');
     await page.click('button:has-text("Update Vehicle")');
     await expect(page.locator('table')).toContainText('UpdatedModel');
   });
-});
