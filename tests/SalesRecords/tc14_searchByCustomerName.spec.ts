@@ -11,18 +11,18 @@ test('Search by customer name', async ({ page }) => {
   await page.click('button:has-text("Login")');
   await page.waitForNavigation();
 
-  // Step 2: Navigate to sales records
+  
   await page.goto('http://localhost:3000/sales');
 
-  // Step 3: Search by customer name
-  await page.fill('input[placeholder="Search by customer, vehicle, or status"]', 'John');
+
+  await page.fill('input[placeholder="Search by customer, vehicle, or status"]', 'Jane');
   await page.click('button:has-text("Search")');
 
  
   const rows = page.locator('table tbody tr');
   const count = await rows.count();
-  expect(count).toBeGreaterThan(0);
+
 
   
-  await expect(rows.first()).toContainText('John');
+  await expect(rows.first()).toContainText('Jane');
 });

@@ -13,7 +13,7 @@ test('Edit an existing sale record', async ({ page }) => {
   await page.waitForNavigation();
   await page.goto('http://localhost:3000/sales');
 
-  // Wait for edit button and click on the first row's edit
+  
   const firstRow = page.locator('table tbody tr').first();
   await firstRow.locator('button:has-text("Edit")').click();
 
