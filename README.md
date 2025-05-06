@@ -11,7 +11,7 @@ Try it out here: [vehicle-sales-app.vercel.app](https://vehicle-sales-app.vercel
 
 ## 🧰 Tech Stack
 
-- **Frontend**: React (TypeScript)
+- **Frontend**: React (TypeScript) with Tailwind CSS
 - **Backend**: Node.js, Express ,TS
 - **Database**: MongoDB
 - **Testing**: Playwright, Manual Testing
