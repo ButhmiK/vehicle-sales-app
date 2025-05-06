@@ -1,4 +1,7 @@
-# Vehicle Sales App
+# Vehicle Sales App SQA Assignment 
+
+[View  📄 ](docs/2025-S1-IT4100-Assignment.pdf)
+
 
 A full-stack web application designed to manage and sell vehicles efficiently. This project also supports manual and automated testing workflows, including Playwright testing.
 
